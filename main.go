@@ -42,6 +42,8 @@ func main() {
 	r.PUT("/nwolf2/status/", invalidRequest)
 
 	r.Any("/nwolf2", notFoundResponse)
+	r.Any("/nwolf2/", notFoundResponse)
+	r.Any("/", notFoundResponse)
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
 
