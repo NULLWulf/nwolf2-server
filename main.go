@@ -29,6 +29,6 @@ func getSystemDate() gin.HandlerFunc {
 
 func invalidRequest() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.JSON(http.StatusMethodNotAllowed, http.StatusMethodNotAllowed)
+		c.JSON(http.StatusMethodNotAllowed, gin.H{"status": http.StatusMethodNotAllowed})
 	}
 }
