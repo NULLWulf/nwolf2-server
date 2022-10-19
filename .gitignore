@@ -15,3 +15,4 @@ env
 # Dependency directories (remove the comment below to include it)
 # vendor/
 .idea/
+student-1.pem
