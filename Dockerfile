@@ -18,6 +18,6 @@ WORKDIR /bin/
 COPY --from=builder /home/nullwulf/F22/CSC482/nwolf2-server/ .
 COPY --from=builder /home/nullwulf/F22/CSC482/nwolf2-server/.env .
 
-CMD [ "./app" ]
+CMD [ "./nwolf2-server" ]
 
 EXPOSE 8080
