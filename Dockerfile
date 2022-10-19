@@ -5,6 +5,11 @@ COPY . .
 
 RUN go get .
 
+# Sets gin to release mode
+# Other environment variables loaded in from program
+ARG gin_mode=release
+ENV GIN_MODE=$gin_mode
+
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o nwolf2-server .
 
 # deployment image
