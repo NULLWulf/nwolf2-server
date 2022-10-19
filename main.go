@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	_ "github.com/nullwulf/loggly"
 	"net/http"
 	"time"
 )
@@ -25,6 +26,10 @@ func getSystemDate() gin.HandlerFunc {
 			"system time": time.Now().UTC().Format(time.RFC3339),
 		})
 	}
+}
+
+func logRquest(i interface{}) {
+
 }
 
 func invalidRequest() gin.HandlerFunc {
