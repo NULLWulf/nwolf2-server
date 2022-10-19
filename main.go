@@ -1,10 +1,12 @@
 package main
 
 import (
-	"fmt"
+	"encoding/json"
 	"github.com/gin-gonic/gin"
+	"github.com/nullwulf/loggly"
 	_ "github.com/nullwulf/loggly"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -16,6 +18,7 @@ type RequestLog struct {
 }
 
 func main() {
+	// Instantiate Loggly Client
 	r := gin.Default()
 	status := r.Group("/nwolf2/status/")
 	{
@@ -43,6 +46,19 @@ func invalidRequest(c *gin.Context) {
 }
 
 func populateLog(c *gin.Context, status int) {
+	// Attempts to get APP_TAG from environment variables file.
+	tag := os.Getenv("APP_TAG")
+	if tag == "" {
+		tag = "default-Nwolf2-Server"
+	}
+	// Instantiate Loggly Client
+	lgglyClient := loggly.New(tag)
+
 	logMessage := RequestLog{c.Request.Method, c.ClientIP(), c.FullPath(), status}
-	fmt.Println(logMessage)
+	json, err := json.Marshal(&logMessage)
+	if err != nil {
+		lgglyClient.EchoSend("error", err.Error())
+
+	}
+	lgglyClient.EchoSend("info", string(json))
 }
