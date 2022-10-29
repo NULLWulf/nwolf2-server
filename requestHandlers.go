@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"time"
 )
 
 func notFoundResponse(c *gin.Context) {
@@ -13,10 +12,14 @@ func notFoundResponse(c *gin.Context) {
 	})
 }
 
-func getSystemDate(c *gin.Context) {
+func getTableStatus(c *gin.Context) {
+	tableName := "Top10Cryptos"
+	tableCount := 50
+
 	populateLog(c, 200)
 	c.IndentedJSON(http.StatusOK, gin.H{
-		"system-time": time.Now().UTC().Format(time.RFC3339),
+		"Top10Cryptos": tableName,
+		"recordCount":  tableCount,
 	})
 }
 
@@ -25,4 +28,12 @@ func invalidRequest(c *gin.Context) {
 	c.IndentedJSON(http.StatusMethodNotAllowed, gin.H{
 		"message": "405 - Method not allowed",
 	})
+}
+
+func getALlDocuments(c *gin.Context) {
+
+}
+
+func searchTable(c *gin.Context) {
+
 }

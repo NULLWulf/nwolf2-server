@@ -24,17 +24,14 @@ func main() {
 	// Instantiate Loggly Client
 	r := gin.Default()
 
-	r.GET("/nwolf2/status", getSystemDate)
+	r.GET("/nwolf2/status", getTableStatus)
+	r.GET("/nwolf2/all", getALlDocuments)
+	r.GET("/nwolf2/search", searchTable)
+
 	r.DELETE("/nwolf2/status", invalidRequest)
 	r.POST("/nwolf2/status", invalidRequest)
 	r.PATCH("/nwolf2/status", invalidRequest)
 	r.PUT("/nwolf2/status", invalidRequest)
-
-	r.GET("/nwolf2/status/", getSystemDate)
-	r.DELETE("/nwolf2/status/", invalidRequest)
-	r.POST("/nwolf2/status/", invalidRequest)
-	r.PATCH("/nwolf2/status/", invalidRequest)
-	r.PUT("/nwolf2/status/", invalidRequest)
 
 	r.Any("/nwolf2", notFoundResponse)
 	r.Any("/nwolf2/", notFoundResponse)
