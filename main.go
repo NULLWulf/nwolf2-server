@@ -16,7 +16,7 @@ func main() {
 	r := gin.Default()
 
 	r.GET("/nwolf2/status", getTableStatus)
-	r.GET("/nwolf2/all", getALlDocuments)
+	r.GET("/nwolf2/all", getAllDocuments)
 	r.GET("/nwolf2/search", searchTable)
 
 	r.DELETE("/nwolf2/status", invalidRequest)
@@ -27,6 +27,7 @@ func main() {
 	r.Any("/nwolf2", notFoundResponse)
 	r.Any("/", notFoundResponse)
 	err = r.Run()
+
 	if err != nil {
 		return
 	} // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")

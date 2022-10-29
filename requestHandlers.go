@@ -5,35 +5,49 @@ import (
 	"net/http"
 )
 
+type DateQuery struct {
+	Date string `form:"date"`
+}
+
 func notFoundResponse(c *gin.Context) {
 	logRequest(c, 405)
 	c.IndentedJSON(http.StatusNotFound, gin.H{
-		"message": "404 - Resource Not found",
+		"status": "404 - Resource Not found",
 	})
 }
 
 func getTableStatus(c *gin.Context) {
 	tableName := "Top10Cryptos"
-	tableCount := 50
+	count, err := getDocumentCount()
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{
+			"status": "500 - Internal Server Error",
+			"error":  err.Error(),
+		})
+		return
+	} else {
+		c.IndentedJSON(http.StatusOK, gin.H{
+			"table":       tableName,
+			"recordCount": count,
+		})
+		return
+	}
+}
 
-	logRequest(c, 200)
-	c.IndentedJSON(http.StatusOK, gin.H{
-		"Top10Cryptos": tableName,
-		"recordCount":  tableCount,
+func getAllDocuments(c *gin.Context) {
+
+}
+
+func searchTable(c *gin.Context) {
+	cs := c.Query("date")
+	c.IndentedJSON(http.StatusUnauthorized, gin.H{
+		"qs": cs,
 	})
 }
 
 func invalidRequest(c *gin.Context) {
 	logRequest(c, 405)
 	c.IndentedJSON(http.StatusMethodNotAllowed, gin.H{
-		"message": "405 - Method not allowed",
+		"status": "405 - Method not allowed",
 	})
-}
-
-func getALlDocuments(c *gin.Context) {
-
-}
-
-func searchTable(c *gin.Context) {
-
 }
