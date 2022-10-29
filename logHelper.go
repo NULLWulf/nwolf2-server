@@ -7,20 +7,29 @@ import (
 	"os"
 )
 
-func populateLog(c *gin.Context, status int) {
-	// Attempts to get APP_TAG from environment variables file.
-	tag := os.Getenv("APP_TAG")
-	if tag == "" {
-		tag = "default-Nwolf2-Server"
-	}
+type RequestLog struct {
+	Method      string
+	SourceIP    string
+	RequestPath string
+	StatusCode  int
+}
+
+func logRequest(c *gin.Context, status int) {
 	// Instantiate Loggly Client
-	lgglyClient := loggly.New(tag)
+	lgglyClient := loggly.New(getTag())
 
 	logMessage := RequestLog{c.Request.Method, c.ClientIP(), c.FullPath(), status}
 	json, err := json.Marshal(&logMessage)
 	if err != nil {
 		lgglyClient.EchoSend("error", err.Error())
-
 	}
 	lgglyClient.EchoSend("info", string(json))
+}
+
+func getTag() string {
+	tag := os.Getenv("APP_TAG")
+	if tag == "" {
+		tag = "default-Nwolf2-Server"
+	}
+	return tag
 }

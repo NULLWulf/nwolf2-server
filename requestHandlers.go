@@ -6,7 +6,7 @@ import (
 )
 
 func notFoundResponse(c *gin.Context) {
-	populateLog(c, 405)
+	logRequest(c, 405)
 	c.IndentedJSON(http.StatusNotFound, gin.H{
 		"message": "404 - Resource Not found",
 	})
@@ -16,7 +16,7 @@ func getTableStatus(c *gin.Context) {
 	tableName := "Top10Cryptos"
 	tableCount := 50
 
-	populateLog(c, 200)
+	logRequest(c, 200)
 	c.IndentedJSON(http.StatusOK, gin.H{
 		"Top10Cryptos": tableName,
 		"recordCount":  tableCount,
@@ -24,7 +24,7 @@ func getTableStatus(c *gin.Context) {
 }
 
 func invalidRequest(c *gin.Context) {
-	populateLog(c, 405)
+	logRequest(c, 405)
 	c.IndentedJSON(http.StatusMethodNotAllowed, gin.H{
 		"message": "405 - Method not allowed",
 	})

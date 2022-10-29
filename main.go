@@ -6,13 +6,6 @@ import (
 	"log"
 )
 
-type RequestLog struct {
-	Method      string
-	SourceIP    string
-	RequestPath string
-	StatusCode  int
-}
-
 func main() {
 	// Loads Environmental variables into program
 	// e.g AWS, Loggly CMP token.
@@ -20,8 +13,6 @@ func main() {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
-
-	// Instantiate Loggly Client
 	r := gin.Default()
 
 	r.GET("/nwolf2/status", getTableStatus)
@@ -34,7 +25,9 @@ func main() {
 	r.PUT("/nwolf2/status", invalidRequest)
 
 	r.Any("/nwolf2", notFoundResponse)
-	r.Any("/nwolf2/", notFoundResponse)
 	r.Any("/", notFoundResponse)
-	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	err = r.Run()
+	if err != nil {
+		return
+	} // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
