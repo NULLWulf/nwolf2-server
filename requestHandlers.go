@@ -16,23 +16,21 @@ func notFoundResponse(c *gin.Context) {
 	})
 }
 
-func getTableStatus(c *gin.Context) {
-	tableName := "Top10Cryptos"
-	count, err := getDocumentCount()
-	if err != nil {
-		c.IndentedJSON(http.StatusInternalServerError, gin.H{
-			"status": "500 - Internal Server Error",
-			"error":  err.Error(),
-		})
-		return
-	} else {
-		c.IndentedJSON(http.StatusOK, gin.H{
-			"table":       tableName,
-			"recordCount": count,
-		})
-		return
-	}
-}
+//func getTableStatus(c *gin.Context) {
+//	tableName := "Top10Cryptos"
+//	count, err := getDocumentCount()
+//	if err != nil {
+//		c.IndentedJSON(http.StatusInternalServerError, gin.H{
+//			"status": "500 - Internal Server Error",
+//			"error":  err.Error(),
+//		})
+//	} else {
+//		c.IndentedJSON(http.StatusOK, gin.H{
+//			"table":       tableName,
+//			"recordCount": count,
+//		})
+//	}
+//}
 
 func getAllDocuments(c *gin.Context) {
 

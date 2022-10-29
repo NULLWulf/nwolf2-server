@@ -2,8 +2,8 @@ package main
 
 // CmpResponse Response body of CMP api, only interested in data array of crypto objects
 type CmpResponse struct {
-	TimeBlockUTC string
-	Partition    string
+	TimeBlockUTC string          `dynamodbav:"TimeBlockUTC"`
+	Partition    string          `dynamodbav:"Partition"`
 	Data         []CryptoElement `dynamodbav:"data"`
 }
 

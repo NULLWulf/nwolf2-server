@@ -1,13 +1,30 @@
 package main
 
 import (
-	"context"
-	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/aws/aws-sdk-go-v2/config"
-	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
+	"fmt"
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/dynamodb"
+	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 )
 
-//func getAllDynamoDBDocs() {
+func getAllDynamoDBDocs() {
+	sess := session.Must(session.NewSession(&aws.Config{
+		Region:   aws.String("us-east-1"),
+		Endpoint: aws.String("https://dynamodb.us-east-1.amazonaws.com"),
+	}))
+	svc := dynamodb.New(sess)
+
+	resp, _ := svc.Scan(
+		&dynamodb.ScanInput{
+			TableName: aws.String("nwolf-top10-cmp"),
+		})
+	var obj []CmpResponse
+	_ = dynamodbattribute.UnmarshalListOfMaps(resp.Items, &obj)
+	fmt.Printf("%v\n", obj)
+}
+
+//func getDocumentCount() (int32, error) {
 //	cfg, err := config.LoadDefaultConfig(context.TODO(), func(o *config.LoadOptions) error {
 //		o.Region = "us-east-1"
 //		return nil
@@ -22,32 +39,8 @@ import (
 //		TableName: aws.String("nwolf-top10-cmp"),
 //	})
 //	if err != nil {
-//		panic(err)
+//		return 0, err
 //	}
 //
-//	var results []CmpResponse
-//	var error = dynamodbattribute.UnmarshalListOfMaps(out.Count(), &results)
-//
-//	fmt.Println()
+//	return out.Count, nil
 //}
-
-func getDocumentCount() (int32, error) {
-	cfg, err := config.LoadDefaultConfig(context.TODO(), func(o *config.LoadOptions) error {
-		o.Region = "us-east-1"
-		return nil
-	})
-	if err != nil {
-		panic(err)
-	}
-
-	svc := dynamodb.NewFromConfig(cfg)
-
-	out, err := svc.Scan(context.TODO(), &dynamodb.ScanInput{
-		TableName: aws.String("nwolf-top10-cmp"),
-	})
-	if err != nil {
-		return 0, err
-	}
-
-	return out.Count, nil
-}
