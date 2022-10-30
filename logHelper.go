@@ -14,6 +14,11 @@ type RequestLog struct {
 	StatusCode  int
 }
 
+type InternalError struct {
+	Context string
+	Error   string
+}
+
 func logRequest(c *gin.Context, status int) {
 	// Instantiate Loggly Client
 	lgglyClient := loggly.New(getTag())
@@ -32,4 +37,14 @@ func getTag() string {
 		tag = "default-Nwolf2-Server"
 	}
 	return tag
+}
+
+func logInternalError(internalErr InternalError) {
+	// Instantiate Loggly Client
+	lgglyClient := loggly.New(getTag())
+	jsonMsg, err := json.Marshal(&internalErr)
+	if err != nil {
+		lgglyClient.EchoSend("error", err.Error())
+	}
+	lgglyClient.EchoSend("error", string(jsonMsg))
 }
