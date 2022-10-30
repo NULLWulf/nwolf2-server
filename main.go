@@ -27,6 +27,7 @@ func main() {
 
 	r.Any("/nwolf2", notFoundResponse)
 	r.Any("/", notFoundResponse)
+	r.Any("/nwolf2/help", getAllDocuments)
 	err = r.Run()
 
 	if err != nil {
