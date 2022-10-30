@@ -64,7 +64,10 @@ func getDocDateRange(lower string, upper string) ([]CmpResponse, error) {
 	var response *dynamodb.QueryOutput
 
 	//keyEx := expression.KeyBetween(expression.Key("TimeBlockUTC"), expression.Value(lower), expression.Value(upper))
-	keyEx := expression.Key("TimeBlockUTC").Between(expression.Value(lower), expression.Value(upper))
+	keyEx := expression.KeyAnd(
+		expression.Key("Partition").Equal(expression.Value("Top10Cryptos")),
+		expression.Key("TimeBlockUTC").Between(expression.Value(lower), expression.Value(upper)))
+
 	expr, err := expression.NewBuilder().WithKeyCondition(keyEx).Build()
 	response, err = client.Query(context.TODO(), &dynamodb.QueryInput{
 		TableName:                 aws.String("nwolf-top10-cmp"),
@@ -77,8 +80,6 @@ func getDocDateRange(lower string, upper string) ([]CmpResponse, error) {
 		log.Fatalf("Query API call failed: %s", err)
 	}
 	var obj []CmpResponse
-	var dec attributevalue.DecoderOptions
-	dec.TagKey = "json"
 	err = attributevalue.UnmarshalListOfMapsWithOptions(response.Items, &obj)
 	if err != nil {
 		log.Fatalf("unable to unmarshal records: %v", err)

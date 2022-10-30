@@ -45,10 +45,15 @@ func getAllDocuments(c *gin.Context) {
 }
 
 func searchTable(c *gin.Context) {
-	cs := c.Query("date")
-	c.IndentedJSON(http.StatusUnauthorized, gin.H{
-		"qs": cs,
-	})
+	docs, err := getDocDateRange("10-28-2022", "10-29-2022")
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{
+			"status": "500 - Internal Server Error",
+			"error":  err.Error(),
+		})
+	} else {
+		c.JSONP(http.StatusOK, docs)
+	}
 }
 
 func invalidRequest(c *gin.Context) {
