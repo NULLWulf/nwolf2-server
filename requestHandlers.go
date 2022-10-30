@@ -69,7 +69,7 @@ func searchTable(c *gin.Context) {
 			go logRequest(c, http.StatusBadRequest)
 			c.IndentedJSON(http.StatusBadRequest, gin.H{
 				"status": "400 - Bad Request",
-				"info": "Malformed Query Parameters, parameter must follow format of <MM-DD-YYYY-HH> in UTC Time." +
+				"info": "Malformed Query Parameters, parameter must follow format of MM-DD-YYYY-HH in UTC Time. " +
 					"See help endpoint for more information.",
 				"help endpoint": "/nwolf2/help",
 			})
@@ -91,7 +91,7 @@ func getHelp(c *gin.Context) {
 		"details":        "The Coin Marketplace Pro API is polled hourly and stored in UTC time.",
 		"/nwolf2/status": "Returns table name as well as total number of records in database.",
 		"/nwolf2/all":    "Returns all records from database",
-		"/nwolf2/search?start=<MM-DD-YYYY-HH>&end=<MM-DD-YYYY-HH>": "Returns documents within and including specified date range including hour of day." +
+		"/nwolf2/search?start=MM-DD-YYYY-HH&end=MM-DD-YYYY-HH": "Returns documents within and including specified date range including hour of day." +
 			"HH must be between 0 and 23.  Ex. 10-28-2022-00, 10-29-2022-05, 10-29-2022-15",
 	})
 }
