@@ -19,11 +19,11 @@ func logRequest(c *gin.Context, status int) {
 	lgglyClient := loggly.New(getTag())
 
 	logMessage := RequestLog{c.Request.Method, c.ClientIP(), c.FullPath(), status}
-	json, err := json.Marshal(&logMessage)
+	jsonMsg, err := json.Marshal(&logMessage)
 	if err != nil {
 		lgglyClient.EchoSend("error", err.Error())
 	}
-	lgglyClient.EchoSend("info", string(json))
+	lgglyClient.EchoSend("info", string(jsonMsg))
 }
 
 func getTag() string {

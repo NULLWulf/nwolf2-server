@@ -3,10 +3,10 @@ module github.com/nullwulf/nwolf2-server
 go 1.18
 
 require (
-	github.com/aws/aws-sdk-go v1.44.126
 	github.com/aws/aws-sdk-go-v2 v1.17.1
 	github.com/aws/aws-sdk-go-v2/config v1.17.10
 	github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue v1.10.2
+	github.com/aws/aws-sdk-go-v2/feature/dynamodb/expression v1.4.28
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.17.3
 	github.com/gin-gonic/gin v1.8.1
 	github.com/joho/godotenv v1.4.0
