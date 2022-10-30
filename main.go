@@ -7,7 +7,6 @@ import (
 )
 
 func main() {
-	getAllDynamoDBDocs()
 	// Loads Environmental variables into program
 	// e.g AWS, Loggly CMP token.
 	err := godotenv.Load()
@@ -16,7 +15,7 @@ func main() {
 	}
 	r := gin.Default()
 
-	//r.GET("/nwolf2/status", getTableStatus)
+	r.GET("/nwolf2/status", getTableStatus)
 	r.GET("/nwolf2/all", getAllDocuments)
 	r.GET("/nwolf2/search", searchTable)
 
