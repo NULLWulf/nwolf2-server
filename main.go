@@ -9,10 +9,10 @@ import (
 func main() {
 	// Loads Environmental variables into program
 	// e.g AWS, Loggly CMP token.
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+// 	err := godotenv.Load()
+// 	if err != nil {
+// 		log.Fatal("Error loading .env file")
+// 	}
 
 	r := gin.Default()
 
