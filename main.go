@@ -23,6 +23,7 @@ func main() {
 	err := r.Run()
 
 	if err != nil {
+		logInternalError(InternalError{"Error returned from Main gin loading", err.Error()})
 		return
 	} // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
