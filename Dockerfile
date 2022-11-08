@@ -16,9 +16,6 @@ COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certifi
 WORKDIR /bin/
 
 COPY --from=builder /home/nullwulf/F22/CSC482/nwolf2-server/nwolf2-server .
-# COPY --from=builder /home/nullwulf/F22/CSC482/nwolf2-server/.env .
-# Sets gin to release mode
-# Other environment variables loaded in from program
 ARG gin_mode=release
 ENV GIN_MODE=$gin_mode
 

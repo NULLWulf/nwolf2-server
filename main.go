@@ -2,17 +2,9 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-// 	"github.com/joho/godotenv"
-// 	"log"
 )
 
 func main() {
-	// Loads Environmental variables into program
-	// e.g AWS, Loggly CMP token.
-// 	err := godotenv.Load()
-// 	if err != nil {
-// 		log.Fatal("Error loading .env file")
-// 	}
 
 	r := gin.Default()
 
@@ -28,7 +20,7 @@ func main() {
 	r.Any("/nwolf2", notFoundResponse)
 	r.Any("/", notFoundResponse)
 	r.Any("/nwolf2/help", getHelp)
-	err = r.Run()
+	err := r.Run()
 
 	if err != nil {
 		return
