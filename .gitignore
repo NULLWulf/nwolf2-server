@@ -17,3 +17,4 @@ images/
 # vendor/
 .idea/
 student-1.pem
+.vscode/
