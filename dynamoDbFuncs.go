@@ -2,13 +2,17 @@ package main
 
 import (
 	"context"
-
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/expression"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 )
+
+type TableBasics struct {
+	DynamoDbClient *dynamodb.Client
+	TableName      string
+}
 
 func getAllDynamoDBDocs() ([]CmpResponse, error) {
 	client, err := configDynamo()
@@ -40,13 +44,12 @@ func getAllDynamoDBDocs() ([]CmpResponse, error) {
 
 func getDocumentCount() (int32, error) {
 	client, err := configDynamo()
-	if err != nil {
-		return 0, err
-	}
-	param := &dynamodb.ScanInput{
-		TableName: aws.String("nwolf-top10-cmp"),
-	}
-	scan, err := client.Scan(context.TODO(), param)
+
+	desc, err := client.DescribeTable(
+		context.TODO(), &dynamodb.DescribeTableInput{
+			TableName: aws.String("nwolf-top10-cmp")},
+	)
+
 	if err != nil {
 		logInternalError(InternalError{
 			Context: "getDocumentCount() - scan error",
@@ -54,7 +57,8 @@ func getDocumentCount() (int32, error) {
 		})
 		return 0, err
 	}
-	return scan.Count, err
+
+	return int32(desc.Table.ItemCount), err
 }
 
 func getDocDateRange(lower string, upper string) ([]CmpResponse, error) {
@@ -102,6 +106,7 @@ func configDynamo() (*dynamodb.Client, error) {
 		})
 		return nil, err
 	}
+
 	// Using the Config value, create the DynamoDB client
 	client := dynamodb.NewFromConfig(cfg)
 	return client, err
